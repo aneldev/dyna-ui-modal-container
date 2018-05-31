@@ -20,13 +20,17 @@ export default {
       center: true,
       component: (
         <DynaModalContainer
+	        className="my-modal-container"
 	        show={null}
-          onClick={() => console.log('on click')}
+	        onClick={() => console.log('on click')}
+	        onShow={() => console.log('on show')}
 	        onHide={() => console.log('on hide')}
-        >modal content</DynaModalContainer>
+        >
+	        <div className="demo-content-content">
+		        demo content
+	        </div>
+        </DynaModalContainer>
       ),
-      wrapperStyle:{
-      },
       props: [
         {
           slug: 'hide',

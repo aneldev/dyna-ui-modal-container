@@ -66,6 +66,7 @@ export class ModalContainer extends React.Component<IModalContainerProps, IModal
 		return (
 			<div
 				className={className}
+				ref="container"
 				onClick={this.handleClick.bind(this)}
 			>{this.children}</div>
 		);

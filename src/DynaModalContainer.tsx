@@ -22,6 +22,7 @@ export class DynaModalContainer extends React.Component<IDynaModalContainerProps
 		show: false,
 		children: null,
 		onClick: () => undefined,
+		onShow: () => undefined,
 		onHide: () => undefined,
 	};
 
