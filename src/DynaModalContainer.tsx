@@ -30,6 +30,17 @@ export class DynaModalContainer extends React.Component<IDynaModalContainerProps
 	private modalContainer: ModalContainer;
 	private showValue: boolean = false;
 
+	public componentDidMount(): void {
+		const {show} = this.props;
+		this.show(show);
+	}
+
+	public componentWillUnmount(): void {
+		if (this.rootDivContainer) {
+			document.querySelector('body').removeChild(this.rootDivContainer);
+		}
+	}
+
 	private modalContainerDidMount(modalContainer: ModalContainer): void {
 		this.modalContainer = modalContainer;
 		const {className, children, onClick} = this.props;
@@ -41,12 +52,6 @@ export class DynaModalContainer extends React.Component<IDynaModalContainerProps
 		const {className, children, onClick} = nextProps;
 		if (this.modalContainer) this.modalContainer.update({className, children, onClick});
 		this.show(nextProps.show);
-	}
-
-	public componentWillUnmount(): void {
-		if (this.rootDivContainer) {
-			document.querySelector('body').removeChild(this.rootDivContainer);
-		}
 	}
 
 	private show(showValue: boolean): void {
@@ -69,6 +74,7 @@ export class DynaModalContainer extends React.Component<IDynaModalContainerProps
 		}
 		else {
 			// hide
+			if (!this.rootDivContainer) return; // there is nothing to hide
 			this.modalContainer.update({show: this.showValue});
 			const elementToRemove: HTMLDivElement = this.rootDivContainer;
 			this.rootDivContainer = null;

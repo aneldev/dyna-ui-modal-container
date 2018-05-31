@@ -15,7 +15,7 @@ describe('Home', () => {
   it('has expected content with deep render', () => {
     wrapper = enzyme.shallow(
       (
-        <DynaModalContainer onClick={() => console.log('I am clicked')}>My button</DynaModalContainer>
+        <DynaModalContainer show onClick={() => console.log('I am clicked')}>My button</DynaModalContainer>
       ),
       {}
     );
