@@ -3,8 +3,6 @@ import * as ReactDOM from "react-dom";
 
 import {ModalContainer} from "./components/ModalContainer";
 
-import "./DynaModalContainer.less";
-
 const ANIMATION_DURATION: number = 250; // #animation
 
 export interface IDynaModalContainerProps {
