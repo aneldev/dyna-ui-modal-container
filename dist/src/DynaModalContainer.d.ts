@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./DynaModalContainer.less";
 export interface IDynaModalContainerProps {
     className?: string;
     show: boolean;
@@ -13,9 +12,10 @@ export declare class DynaModalContainer extends React.Component<IDynaModalContai
     private rootDivContainer;
     private modalContainer;
     private showValue;
+    componentDidMount(): void;
+    componentWillUnmount(): void;
     private modalContainerDidMount(modalContainer);
     componentWillReceiveProps(nextProps: IDynaModalContainerProps): void;
-    componentWillUnmount(): void;
     private show(showValue);
     render(): JSX.Element;
 }

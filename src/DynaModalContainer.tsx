@@ -60,6 +60,7 @@ export class DynaModalContainer extends React.Component<IDynaModalContainerProps
 		if (this.showValue) {
 			// show
 			this.rootDivContainer = document.createElement('div');
+			this.rootDivContainer.classList.add('dyna-modal-container__root_container');
 			document.querySelector('body').appendChild(this.rootDivContainer);
 			ReactDOM.render(
 				<ModalContainer ref={this.modalContainerDidMount.bind(this)}/>,
