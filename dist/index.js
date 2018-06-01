@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"));
+		module.exports = factory(require("react"), require("react-dom"));
 	else if(typeof define === 'function' && define.amd)
-		define("dyna-ts-react-module-boilerplate", ["react"], factory);
+		define("dyna-ui-modal-container", ["react", "react-dom"], factory);
 	else if(typeof exports === 'object')
-		exports["dyna-ts-react-module-boilerplate"] = factory(require("react"));
+		exports["dyna-ui-modal-container"] = factory(require("react"), require("react-dom"));
 	else
-		root["dyna-ts-react-module-boilerplate"] = factory(root["react"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_3__) {
+		root["dyna-ui-modal-container"] = factory(root["react"], root["react-dom"]);
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_0__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,32 +70,35 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-module.exports = __webpack_require__(1);
-
+module.exports = __WEBPACK_EXTERNAL_MODULE_0__;
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Button_1 = __webpack_require__(2);
-exports.Button = Button_1.Button;
-exports.EStyle = Button_1.EStyle;
-exports.EColor = Button_1.EColor;
-exports.ESize = Button_1.ESize;
+module.exports = __webpack_require__(2);
 
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var DynaModalContainer_1 = __webpack_require__(3);
+exports.DynaModalContainer = DynaModalContainer_1.DynaModalContainer;
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -111,76 +114,179 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(3);
-__webpack_require__(4);
-var EStyle;
-(function (EStyle) {
-    EStyle["ROUNDED"] = "ROUNDED";
-})(EStyle = exports.EStyle || (exports.EStyle = {}));
-var EColor;
-(function (EColor) {
-    EColor["WHITE_BLACK"] = "WHITE_BLACK";
-    EColor["WHITE_RED"] = "WHITE_RED";
-    EColor["BLACK_WHITE"] = "BLACK_WHITE";
-    EColor["TRANSPARENT_WHITE"] = "TRANSPARENT_WHITE";
-})(EColor = exports.EColor || (exports.EColor = {}));
-var ESize;
-(function (ESize) {
-    ESize["SMALL"] = "SMALL";
-    ESize["MEDIUM"] = "MEDIUM";
-    ESize["LARGE"] = "LARGE";
-    ESize["XLARGE"] = "XLARGE";
-})(ESize = exports.ESize || (exports.ESize = {}));
-var Button = /** @class */ (function (_super) {
-    __extends(Button, _super);
-    function Button() {
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(4);
+var ModalContainer_1 = __webpack_require__(5);
+var ANIMATION_DURATION = 250; // #animation
+var DynaModalContainer = /** @class */ (function (_super) {
+    __extends(DynaModalContainer, _super);
+    function DynaModalContainer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.baseClassName = "my-button";
+        _this.showValue = false;
+        _this.initialOverflowY = "";
+        return _this;
+    }
+    DynaModalContainer.prototype.componentDidMount = function () {
+        var show = this.props.show;
+        this.show(show);
+    };
+    DynaModalContainer.prototype.componentWillUnmount = function () {
+        if (this.rootDivContainer) {
+            document.querySelector('body').removeChild(this.rootDivContainer);
+        }
+    };
+    DynaModalContainer.prototype.modalContainerDidMount = function (modalContainer) {
+        this.modalContainer = modalContainer;
+        var _a = this.props, className = _a.className, children = _a.children, onClick = _a.onClick;
+        this.modalContainer.update({ className: className, children: children, onClick: onClick });
+        this.show(this.props.show);
+    };
+    DynaModalContainer.prototype.componentWillReceiveProps = function (nextProps) {
+        var className = nextProps.className, children = nextProps.children, onClick = nextProps.onClick;
+        if (this.modalContainer)
+            this.modalContainer.update({ className: className, children: children, onClick: onClick });
+        this.show(nextProps.show);
+    };
+    DynaModalContainer.prototype.show = function (showValue) {
+        var _this = this;
+        if (this.showValue === showValue)
+            return; // exit, nothing to do
+        this.showValue = showValue;
+        var _a = this.props, disableBodyScrollOnShow = _a.disableBodyScrollOnShow, onBeforeShow = _a.onBeforeShow, onAfterShow = _a.onAfterShow, onBeforeHide = _a.onBeforeHide, onAfterHide = _a.onAfterHide;
+        if (this.showValue) {
+            // show
+            onBeforeShow();
+            if (disableBodyScrollOnShow) {
+                this.initialOverflowY = getComputedStyle(document.querySelector('body')).overflowY;
+                document.querySelector('body').style.overflowY = "";
+            }
+            this.rootDivContainer = document.createElement('div');
+            this.rootDivContainer.classList.add('dyna-modal-container__root_container');
+            document.querySelector('body').appendChild(this.rootDivContainer);
+            ReactDOM.render(React.createElement(ModalContainer_1.ModalContainer, { ref: this.modalContainerDidMount.bind(this) }), this.rootDivContainer, function () {
+                setTimeout(function () { return _this.modalContainer.update({ show: _this.showValue }); }, 1);
+                setTimeout(function () { return onAfterShow(); }, ANIMATION_DURATION);
+            });
+        }
+        else {
+            // hide
+            if (!this.rootDivContainer)
+                return; // there is nothing to hide
+            onBeforeHide();
+            if (disableBodyScrollOnShow) {
+                document.querySelector('body').style.overflowY = this.initialOverflowY;
+            }
+            this.modalContainer.update({ show: this.showValue });
+            var elementToRemove_1 = this.rootDivContainer;
+            this.rootDivContainer = null;
+            this.modalContainer = null;
+            setTimeout(function () {
+                document.querySelector('body').removeChild(elementToRemove_1);
+                if (!_this.rootDivContainer)
+                    onAfterHide();
+            }, ANIMATION_DURATION);
+        }
+    };
+    DynaModalContainer.prototype.render = function () {
+        return null;
+    };
+    DynaModalContainer.defaultProps = {
+        className: "",
+        show: false,
+        children: null,
+        disableBodyScrollOnShow: true,
+        onClick: function () { return undefined; },
+        onBeforeShow: function () { return undefined; },
+        onAfterShow: function () { return undefined; },
+        onBeforeHide: function () { return undefined; },
+        onAfterHide: function () { return undefined; },
+    };
+    return DynaModalContainer;
+}(React.Component));
+exports.DynaModalContainer = DynaModalContainer;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+__webpack_require__(6);
+var ModalContainer = /** @class */ (function (_super) {
+    __extends(ModalContainer, _super);
+    function ModalContainer(props) {
+        var _this = _super.call(this, props) || this;
+        _this.baseClassName = "dyna-internal-modal-container";
         _this.className = function (subClassName, active) {
             if (subClassName === void 0) { subClassName = ""; }
             if (active === void 0) { active = true; }
             return active ? "" + _this.baseClassName + subClassName : "";
         };
+        _this.children = null;
+        _this.onClick = function () { return undefined; };
+        _this.state = {
+            className: '',
+            show: false,
+        };
         return _this;
     }
-    Button.prototype.render = function () {
-        var _a = this.props, children = _a.children, style = _a.style, color = _a.color, size = _a.size, href = _a.href, onClick = _a.onClick;
+    ModalContainer.prototype.update = function (updateContent) {
+        var newState = {};
+        if (updateContent.className !== undefined)
+            newState.className = updateContent.className;
+        if (updateContent.show !== undefined)
+            newState.show = updateContent.show;
+        if (updateContent.children !== undefined)
+            this.children = updateContent.children;
+        if (updateContent.onClick !== undefined)
+            this.onClick = updateContent.onClick;
+        this.setState(newState);
+    };
+    ModalContainer.prototype.handleClick = function (event) {
+        if (event.target === this.refs.container)
+            this.onClick();
+    };
+    ModalContainer.prototype.render = function () {
+        var _a = this.state, userClassName = _a.className, show = _a.show;
         var className = [
+            userClassName,
             this.className(),
-            this.className("--style-" + style),
-            this.className("--color-" + color),
-            this.className("--size-" + size),
+            this.className(show ? '--show' : '--hide'),
         ].join(' ').trim();
-        return (React.createElement("a", { className: className, href: href, onClick: onClick },
-            React.createElement("button", null, children)));
+        return (React.createElement("div", { className: className, ref: "container", onClick: this.handleClick.bind(this) }, this.children));
     };
-    Button.defaultProps = {
-        children: null,
-        style: EStyle.ROUNDED,
-        color: EColor.WHITE_BLACK,
-        size: ESize.MEDIUM,
-        href: null,
-        onClick: function () { return undefined; },
-    };
-    return Button;
+    return ModalContainer;
 }(React.Component));
-exports.Button = Button;
+exports.ModalContainer = ModalContainer;
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
-
-/***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(5);
+var content = __webpack_require__(7);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -188,14 +294,14 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(7)(content, options);
+var update = __webpack_require__(9)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/postcss-loader/lib/index.js??ref--4-2!../node_modules/less-loader/dist/cjs.js!./Button.less", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/postcss-loader/lib/index.js??ref--4-2!../node_modules/less-loader/dist/cjs.js!./Button.less");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/postcss-loader/lib/index.js??ref--4-2!../../node_modules/less-loader/dist/cjs.js!./ModalContainer.less", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/postcss-loader/lib/index.js??ref--4-2!../../node_modules/less-loader/dist/cjs.js!./ModalContainer.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -205,21 +311,21 @@ if(false) {
 }
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(6)(false);
+exports = module.exports = __webpack_require__(8)(false);
 // imports
 
 
 // module
-exports.push([module.i, ".my-button {\n  outline: none;\n}\n.my-button--style-ROUNDED {\n  font-size: 0;\n}\n.my-button--style-ROUNDED button {\n  outline: none;\n  border-style: solid;\n  cursor: pointer;\n  -webkit-transition: background-color 200ms ease-out;\n  transition: background-color 200ms ease-out;\n}\n.my-button--style-ROUNDED.my-button--size-SMALL button {\n  padding: 2px 8px;\n  font-size: 8px;\n  line-height: 10px;\n  border-width: 1px;\n  border-radius: 8px;\n  font-weight: bold;\n}\n.my-button--style-ROUNDED.my-button--size-SMALL button:active {\n  position: relative;\n  top: 1px;\n  left: 1px;\n}\n.my-button--style-ROUNDED.my-button--size-MEDIUM button {\n  padding: 4px 16px;\n  font-size: 14px;\n  line-height: 22px;\n  border-width: 1px;\n  border-radius: 16px;\n  font-weight: bold;\n}\n.my-button--style-ROUNDED.my-button--size-MEDIUM button:active {\n  position: relative;\n  top: 1px;\n  left: 1px;\n}\n.my-button--style-ROUNDED.my-button--size-LARGE button {\n  padding: 8px 32px;\n  font-size: 26px;\n  line-height: 46px;\n  border-width: 1px;\n  border-radius: 32px;\n  font-weight: bold;\n}\n.my-button--style-ROUNDED.my-button--size-LARGE button:active {\n  position: relative;\n  top: 2px;\n  left: 2px;\n}\n.my-button--style-ROUNDED.my-button--size-XLARGE button {\n  padding: 16px 64px;\n  font-size: 40px;\n  line-height: 92px;\n  border-width: 2px;\n  border-radius: 64px;\n  font-weight: bold;\n}\n.my-button--style-ROUNDED.my-button--size-XLARGE button:active {\n  position: relative;\n  top: 2px;\n  left: 2px;\n}\n.my-button--color-WHITE_BLACK button {\n  border-color: black;\n  background: white;\n  color: black;\n}\n.my-button--color-WHITE_BLACK button:hover {\n  background-color: #e6e6e6;\n}\n.my-button--color-WHITE_BLACK button:active {\n  background-color: #d1d1d1;\n}\n.my-button--color-WHITE_RED button {\n  border-color: red;\n  background: white;\n  color: red;\n}\n.my-button--color-WHITE_RED button:hover {\n  background-color: #e6e6e6;\n}\n.my-button--color-WHITE_RED button:active {\n  background-color: #d1d1d1;\n}\n.my-button--color-BLACK_WHITE button {\n  border-color: black;\n  background: black;\n  color: white;\n}\n.my-button--color-BLACK_WHITE button:hover {\n  background-color: #333333;\n}\n.my-button--color-BLACK_WHITE button:active {\n  background-color: #525252;\n}\n.my-button--color-TRANSPARENT_WHITE button {\n  border-color: white;\n  background: transparent;\n  color: white;\n}\n.my-button--color-TRANSPARENT_WHITE button:hover {\n  border-color: #e6e6e6;\n  color: #e6e6e6;\n}\n.my-button--color-TRANSPARENT_WHITE button:active {\n  border-color: #d1d1d1;\n  color: #d1d1d1;\n}\n", ""]);
+exports.push([module.i, ".dyna-internal-modal-container {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(255, 255, 255, 0.6);\n  opacity: 0.001;\n  -webkit-transition: opacity 250ms ease-in;\n  transition: opacity 250ms ease-in;\n}\n.dyna-internal-modal-container--show {\n  opacity: 1;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -301,7 +407,7 @@ function toComment(sourceMap) {
 }
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -347,7 +453,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(8);
+var	fixUrls = __webpack_require__(10);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -660,7 +766,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
