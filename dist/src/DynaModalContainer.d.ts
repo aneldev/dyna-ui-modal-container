@@ -4,14 +4,18 @@ export interface IDynaModalContainerProps {
     show: boolean;
     children: any;
     onClick?: () => void;
-    onShow?: () => void;
-    onHide?: () => void;
+    disableBodyScrollOnShow?: boolean;
+    onBeforeShow?: () => void;
+    onAfterShow?: () => void;
+    onBeforeHide?: () => void;
+    onAfterHide?: () => void;
 }
 export declare class DynaModalContainer extends React.Component<IDynaModalContainerProps> {
     static defaultProps: IDynaModalContainerProps;
     private rootDivContainer;
     private modalContainer;
     private showValue;
+    private initialOverflowY;
     componentDidMount(): void;
     componentWillUnmount(): void;
     private modalContainerDidMount(modalContainer);

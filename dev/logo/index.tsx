@@ -9,8 +9,8 @@ export const Logo= ()=>(
       {faIcon('cubes')}
     </div>
     <div className={styles.texts}>
-      <div className={styles.line1}>dyna ts</div>
-      <div className={styles.line2}>react module boilerplate</div>
+      <div className={styles.line1}>dyna modal container</div>
+      <div className={styles.line2}>a simple react modal container</div>
     </div>
   </div>
 

@@ -34,7 +34,6 @@ export class ModalContainer extends React.Component<IModalContainerProps, IModal
 		const newState: IModalContainerState = {};
 		if (updateContent.className !== undefined) newState.className = updateContent.className;
 		if (updateContent.show !== undefined) newState.show = updateContent.show;
-		if (updateContent.show !== undefined) console.debug('component update show', newState.show);
 		if (updateContent.children !== undefined) this.children = updateContent.children;
 		if (updateContent.onClick !== undefined) this.onClick = updateContent.onClick;
 		this.setState(newState);
@@ -54,8 +53,6 @@ export class ModalContainer extends React.Component<IModalContainerProps, IModal
 			className: userClassName,
 			show,
 		} = this.state;
-
-		console.debug("modal container render", {show});
 
 		const className: string = [
 			userClassName,
