@@ -1,10 +1,10 @@
 {
   "name": "dyna-ui-modal-container",
-  "version": "0.0.1",
-  "description": "About",
+  "version": "1.0.1",
+  "description": "React modal container",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/aneldev/dyna-ui-modal-container"
   },
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",

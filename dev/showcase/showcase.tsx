@@ -106,6 +106,7 @@ export default {
 	  {
 		  slug: "the-end",
 		  title: "the end",
+		  center: true,
 		  component: <h4>the end</h4>
 	  },
   ]
