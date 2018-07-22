@@ -48,6 +48,8 @@ export class DynaModalContainer extends React.Component<IDynaModalContainerProps
 
 	private modalContainerDidMount(modalContainer: ModalContainer): void {
 		this.modalContainer = modalContainer;
+		if (!this.modalContainer) return; // might be not there, if the nested component crashed
+
 		const {className, children, onClick} = this.props;
 		this.modalContainer.update({className, children, onClick});
 		this.show(this.props.show);
