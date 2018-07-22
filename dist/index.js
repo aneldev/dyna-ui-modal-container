@@ -319,7 +319,7 @@ exports = module.exports = __webpack_require__(8)(false);
 
 
 // module
-exports.push([module.i, ".dyna-internal-modal-container {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(255, 255, 255, 0.6);\n  opacity: 0.001;\n  -webkit-transition: opacity 250ms ease-in;\n  transition: opacity 250ms ease-in;\n}\n.dyna-internal-modal-container--show {\n  opacity: 1;\n}\n", ""]);
+exports.push([module.i, ".dyna-internal-modal-container {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(255, 255, 255, 0.6);\n  opacity: 0.001;\n}\n@media (min-width: 768px) {\n  .dyna-internal-modal-container {\n    -webkit-transition: opacity 250ms ease-in;\n    transition: opacity 250ms ease-in;\n  }\n}\n.dyna-internal-modal-container--show {\n  opacity: 1;\n}\n", ""]);
 
 // exports
 
