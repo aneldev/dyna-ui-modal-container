@@ -137,6 +137,8 @@ var DynaModalContainer = /** @class */ (function (_super) {
     };
     DynaModalContainer.prototype.modalContainerDidMount = function (modalContainer) {
         this.modalContainer = modalContainer;
+        if (!this.modalContainer)
+            return; // might be not there, if the nested component crashed
         var _a = this.props, className = _a.className, children = _a.children, onClick = _a.onClick;
         this.modalContainer.update({ className: className, children: children, onClick: onClick });
         this.show(this.props.show);
